@@ -18,6 +18,8 @@ public class ProductController {
 //        }
 
         return "[product id = " + productId + " at " + System.currentTimeMillis() + "]";
+
+        //circuit breaker 상황 강제 발생시킴
 //        throw new RuntimeException("I/O Exception");
     }
 }

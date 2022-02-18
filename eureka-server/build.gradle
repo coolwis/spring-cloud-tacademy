@@ -1,6 +1,8 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.7.RELEASE'
+        springBootVersion = '2.3.2.RELEASE'
+//        springBootVersion = '2.0.7.RELEASE'
+
     }
     repositories {
         mavenCentral()
@@ -10,7 +12,8 @@ buildscript {
     }
 }
 
-ext['springCloudVersion'] = 'Finchley.SR2'
+ext['springCloudVersion'] = 'Hoxton.SR6'
+//ext['springCloudVersion'] = 'Finchley.SR2'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -26,8 +29,8 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {

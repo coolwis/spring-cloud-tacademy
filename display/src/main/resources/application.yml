@@ -5,6 +5,7 @@ spring:
   application:
     name: display
 
+# api 에서 일정시간동안 에러 지속시 뒤로 이어지는 호출을 차단(circuit Open)하여 전체 장애를 방지
 hystrix:
   command:
     productInfo:    # command key. use 'default' for global setting.
@@ -15,26 +16,30 @@ hystrix:
       circuitBreaker:
         requestVolumeThreshold: 1   # Minimum number of request to calculate circuit breaker's health. default 20
         errorThresholdPercentage: 50 # Error percentage to open circuit. default 50
-    FeignProductRemoteService#getProductInfo(String):
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 3000   # default 1,000ms
-      circuitBreaker:
-        requestVolumeThreshold: 1   # Minimum number of request to calculate circuit breaker's health. default 20
-        errorThresholdPercentage: 50 # Error percentage to open circuit. default 50
-
+#    FeignProductRemoteService#getProductInfo(String):
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000   # default 1,000ms
+#      circuitBreaker:
+#        requestVolumeThreshold: 1   # Minimum number of request to calculate circuit breaker's health. default 20
+#        errorThresholdPercentage: 50 # Error percentage to open circuit. default 50
+#
 product:
-  ribbon:
+  ribbon:  #load balance
+#    listOfServers: localhost:8082,localhost:7777 --> replace with eureka, that's Load Balance
     MaxAutoRetries: 0
     MaxAutoRetriesNextServer: 1
-
+#
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka  # default address
+
+# feign 을 통해서 호출하는 api들을 hystrix 일괄 적용 가능
+# feign 은  ribbon을 통해 load balance도 적용 가능
 
 feign:
   hystrix:

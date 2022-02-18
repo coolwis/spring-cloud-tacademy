@@ -7,23 +7,23 @@ server:
 
 zuul:
   routes:
-    product:
+    product:  # zuul route Name 생성
       path: /products/**
-      serviceId: product
+      serviceId: product # eureka에서  instance name
       stripPrefix: false
-    display:
+    display:  # zuul route Name 생성
       path: /displays/**
-      serviceId: display
+      serviceId: display # eureka에서  instance name
       stripPrefix: false
   ribbon-isolation-strategy: thread
   thread-pool:
-    use-separate-thread-pools: true
+    use-separate-thread-pools: true # zuul ribbon에 의한 Instance가 Multi thread로 생성 되도록
     thread-pool-key-prefix: zuul-
 
 eureka:
   instance:
     non-secure-port: ${server.port}
-    prefer-ip-address: true
+    prefer-ip-address: true # instance server IP로 보이도록
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
@@ -35,23 +35,23 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 1000
-    product:
+    product: #위에 zuul routes에서 지정한 서비스 이름
       execution:
         isolation:
           thread:
             timeoutInMilliseconds: 10000
   threadpool:
-    zuul-product:
+    zuul-product: #위에 zuul routes에서 지정한 서비스 이름
       coreSize: 30
       maximumSize: 100
       allowMaximumSizeToDivergeFromCoreSize: true
-    zuul-display:
+    zuul-display:  #위에 zuul routes에서 지정한 서비스 이름
       coreSize: 30
       maximumSize: 100
       allowMaximumSizeToDivergeFromCoreSize: true
 
-product:
-  ribbon:
+product: #product api server
+  ribbon: # load balance
     MaxAutoRetriesNextServer: 1
     ReadTimeout: 3000
     ConnectTimeout: 1000
@@ -59,7 +59,7 @@ product:
     MaxConnectionsPerHost: 100
 
 display:
-  ribbon:
+  ribbon: #load balance
     MaxAutoRetriesNextServer: 1
     ReadTimeout: 3000
     ConnectTimeout: 1000

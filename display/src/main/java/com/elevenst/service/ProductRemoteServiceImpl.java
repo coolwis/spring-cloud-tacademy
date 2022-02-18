@@ -7,13 +7,18 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ProductRemoteServiceImpl implements ProductRemoteService {
 
-    private static final String url = "http://product/products/";
+    //product.ribbon.listofServers : localhost:8082
+    private static final String url = "http://product/products/";  // call Service with eureka
+
+//    private static final String url = "http://localhost:8082/products/";
     private final RestTemplate restTemplate;
 
     public ProductRemoteServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
+    //hystrixCommand: 일정시간동안 장애 연속 발생시  Circuit Open하여 fallbackMethod로 보내 버림.
+    // 전체 장애를 방지.
     @Override
     @HystrixCommand(commandKey = "productInfo", fallbackMethod = "getProductInfoFallback")
     public String getProductInfo(String productId) {

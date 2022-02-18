@@ -22,11 +22,17 @@ public class DisplayController {
 
     @GetMapping(path = "/{displayId}")
     public String getDisplayDetail(@PathVariable String displayId) {
-        String productInfo = getProductInfo();
+//        String productInfo = getProductInfoBasicRest();
+        String productInfo =getProductInfoWithFeignClient();
         return String.format("[display id = %s at %s %s ]", displayId, System.currentTimeMillis(), productInfo);
     }
 
-    private String getProductInfo() {
+
+    private String getProductInfoWithFeignClient() {
         return feignProductRemoteService.getProductInfo("12345");
     }
+    private String getProductInfoBasicRest() {
+        return productRemoteService.getProductInfo("12345");
+    }
+
 }
